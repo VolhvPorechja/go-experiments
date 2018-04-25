@@ -18,17 +18,33 @@ import (
 //	fmt.Println(os.Args[0:])
 //}
 
-var commands = map[string]func(){
-	"dup": dup,
-}
+var commands map[string]func()
 
 func main() {
+	commands = map[string]func(){
+		"dup":      dup,
+		"lissajou": lissajou,
+		"help":     showHelp,
+		"fetch":    fetch,
+		"server":   server,
+	}
+
 	command := os.Args[1]
 	commands[command]()
 }
 
-func animateGif() {
+func showHelp() {
+	fmt.Println("Experimental application.")
+	fmt.Println("Usage: awesomProject [command] (params...)")
+	fmt.Println(fmt.Sprintf("Awailable commands: %v", mapKeys(commands)))
+}
 
+func mapKeys(m map[string]func()) []string {
+	s := make([]string, 0, len(m))
+	for k := range m {
+		s = append(s, k)
+	}
+	return s
 }
 
 func dup() {
